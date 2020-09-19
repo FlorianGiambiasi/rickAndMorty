@@ -6,20 +6,27 @@ let lastCloud;
 let timeUp = false; // fasle si pas fini et true si fini
 let score = 0;
 
-function randomeTime(min,max){
+function randomTime(min,max){
     return Math.round(Math.random()*(max-min)+min);
 }
 function randomCloud(clouds){
     const indexCloud = Math.floor(Math.random()*clouds.length);
-    const cloudSelect = cloud[indexCloud];
+    const cloudSelect = clouds[indexCloud];
     
-    if(cloudSelect == lastCloud){
+    if(cloudSelect === lastCloud){
         return randomCloud(clouds);
     }
+    lastCloud = cloudSelect;
 
     return cloudSelect;
 }
 function showHead(){
     const time = randomTime(600,1000);
     const cloud = randomCloud(clouds);
+    cloud.classList.add("up");
+    setTimeout(()=> {
+        if(!timeUp) showHead();
+        cloud.classList.remove("up");
+    } ,time);
 }
+showHead();
